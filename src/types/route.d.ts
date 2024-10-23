@@ -9,4 +9,15 @@ type IRouteProps = RouteObject & {
   children?: IRouteProps[];
 };
 
+export interface ItemsProps {
+  key: string;
+  label: string;
+  children?: ItemsProps[];
+}
+
+export interface LevelKeysProps {
+  key?: string;
+  children?: LevelKeysProps[];
+}
+
 export default IRouteProps;
