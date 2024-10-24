@@ -7,4 +7,7 @@ export default defineConfig({
   resolve: {
     alias: { "@": "/src" },
   },
+  build: {
+    sourcemap: true,
+  },
 });

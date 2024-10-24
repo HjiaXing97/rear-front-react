@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, type MenuProps } from "antd";
 
 import { authRoutes } from "@/router";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addTag } from "@/store/modules/tags";
 
-import { transformRoutes, addMenuHierarchy } from "@/utils";
+import { transformRoutes, addMenuHierarchy, floatArray } from "@/utils";
 import type { LevelKeysProps } from "@/types/route";
 
 type MenuItems = Required<MenuProps>["items"][number];
@@ -16,25 +16,26 @@ const LeftMenu = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { tag } = useAppSelector((stata) => stata.tagsSlice);
 
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
 
   const menuList: MenuItems[] = transformRoutes(authRoutes);
-
   const levelKeys = addMenuHierarchy(menuList as LevelKeysProps[]);
 
-  const floatMenu = menuList.reduce((acc, cur) => {
-    if (cur?.children) {
-      return [...acc, acc.children];
-    }
-    return [...acc];
-  }, []);
+  const floatMenu = floatArray(menuList);
 
   const handleItemClick = ({ key }: { key: string }) => {
-    console.log(floatMenu);
+    const tagIndex = tag.findIndex((item) => item.key === key);
+    if (tagIndex === -1) {
+      console.log(key);
+      console.log(floatMenu);
+
+      const menuItem = floatMenu.find((item) => item.key === key);
+      dispatch(addTag(menuItem));
+    }
     navigate(key);
-    dispatch(addTag(key));
   };
 
   const onOpenChange: MenuProps["onOpenChange"] = (keys) => {
@@ -62,6 +63,9 @@ const LeftMenu = () => {
   useEffect(() => {
     const pathname = location.pathname.split("/").filter(Boolean);
     setOpenKeys([`/${pathname[0]}`]);
+
+    const menuItem = floatMenu.find((item) => item.key === location.pathname);
+    if (menuItem) dispatch(addTag(menuItem));
   }, []);
 
   return (

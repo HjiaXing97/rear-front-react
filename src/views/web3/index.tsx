@@ -3,7 +3,3 @@ const Web3Page = () => {
 };
 
 export default Web3Page;
-
-export const meta = {
-  name: "web3",
-};

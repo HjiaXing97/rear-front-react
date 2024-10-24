@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface TagsState {
   tag: {
     name: string;
-    path: string;
+    key: string;
     isActive: boolean;
   }[];
 }

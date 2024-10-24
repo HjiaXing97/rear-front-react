@@ -19,17 +19,17 @@ const authRoutes: IRouteProps[] = [
     children: [
       {
         index: true,
-        element: <Navigate to="user" />,
+        element: <Navigate to="/system/user" />,
       },
       {
-        path: "user",
+        path: "/system/user",
         element: <User />,
         meta: {
           title: "用户管理",
         },
       },
       {
-        path: "dict",
+        path: "/system/dict",
         element: <Dict />,
         meta: {
           title: "字典管理",

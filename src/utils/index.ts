@@ -20,10 +20,7 @@ export const addMenuHierarchy = (menus: LevelKeysProps[]) => {
   return key;
 };
 
-export const transformRoutes = (
-  routes: IRouteProps[],
-  parantPath = ""
-): ItemsProps[] => {
+export const transformRoutes = (routes: IRouteProps[]): ItemsProps[] => {
   //@ts-ignore
   return routes
     .map((route) => {
@@ -32,14 +29,33 @@ export const transformRoutes = (
       if (!path) return;
 
       return {
-        key: parantPath ? `${parantPath}/${path}` : (path as string),
+        key: path,
         label: reset.meta?.title || "系统管理",
         children: children
-          ? transformRoutes(children ?? [], path).filter(() => {
+          ? transformRoutes(children ?? []).filter(() => {
               return path;
             })
           : undefined,
       };
     })
     .filter((item) => item);
+};
+
+export const floatArray = (array: any[]) => {
+  const arr: any[] = [];
+  const floatChildren = (list: any[]) => {
+    arr.push(
+      ...(list.reduce((prev, next) => {
+        prev.push(next);
+        if (next.children) {
+          floatChildren(next.children);
+        }
+        return prev;
+      }, []) ?? [])
+    );
+  };
+
+  floatChildren(array);
+
+  return arr;
 };

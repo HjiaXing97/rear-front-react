@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import type IRouteProps from "@/types/route";
-import authRoutes from "./anthRoute";
+import authRoutes from "./authRoute";
 
 import Login from "@/pages/login";
 import NotFound from "@/pages/NotFound";

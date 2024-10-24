@@ -3,6 +3,3 @@ const User = () => {
 };
 
 export default User;
-export const meta = {
-  name: "用户管理",
-};
